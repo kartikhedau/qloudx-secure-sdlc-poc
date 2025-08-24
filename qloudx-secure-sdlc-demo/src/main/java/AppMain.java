@@ -6,7 +6,7 @@ import java.sql.Statement;
 public class AppMain {
 
     public static void main(String[] args) {
-        String userInput = "'; DROP TABLE users; --"; // Example of malicious input
+        String userInput = "'; DROP TABLE usersasdad; --"; // Example of malicious input
         String hardcodedPassword = "superSecret123";  // Hardcoded secret (Bad practice)
 
         try {
