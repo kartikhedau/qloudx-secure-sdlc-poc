@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/" # Root directory containing pom.xml
+    schedule:
+      interval: "daily" # Check daily for new dependency versions
