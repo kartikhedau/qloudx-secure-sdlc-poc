@@ -10,29 +10,34 @@ on:
 
 jobs:
   analyze:
-    name: Analyze Java Code
+    name: CodeQL Analyze (Java)
     runs-on: ubuntu-latest
     permissions:
       security-events: write
       actions: read
       contents: read
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]  # Only Java for your project
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # adjust if needed
+          distribution: 'temurin'
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
+          languages: java
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+      # Explicit Maven build (better than Autobuild for custom Maven projects)
+      - name: Build with Maven
+        run: mvn clean install -DskipTests=true
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java"
+          fail-on: note # options: note, warning, error
