@@ -35,7 +35,7 @@ jobs:
       # Explicit Maven build (better than Autobuild for custom Maven projects)
       - name: Build with Maven
         run: mvn clean install -DskipTests=true
-        working-directory: ${{ github.workspace }}/qloudx-secure-sdlc-poc/qloudx-secure-sdlc-demo
+        working-directory: working-directory: qloudx-secure-sdlc-demo
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
