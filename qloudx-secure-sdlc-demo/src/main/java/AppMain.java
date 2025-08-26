@@ -15,7 +15,7 @@ public class AppMain {
 
     public static void main(String[] args) {
         try {
-        	// Example of leaked AWS credentials (for testing purposasdades only)
+        	// Example of leaked AWS credentials (for testing bkhkpurposasdades only)
             String awsAccessKeyId = "AKIA1234567890ABCD"; // AWS Access Key ID pattern
             String awsSecretAccessKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"; // AWS Secret Access Key pattern
 
