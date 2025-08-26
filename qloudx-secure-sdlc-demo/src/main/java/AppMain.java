@@ -11,20 +11,33 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+
 public class AppMain {
 
     public static void main(String[] args) {
         try {
-        	// Example of leaked AWS credentials (for testing bkhkpurpoasdadadasasdades only)
-            String awsAccessKeyId = "AKIA1234567890ABCD"; // AWS Access Key ID pattern
-            String awsSecretAccessKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"; // AWS Secret Access Key pattern
+            // 1. Hardcoded AWS credentials (Bad practice)
+            String awsAccessKeyId = "AKIA1234567890ABCD"; // AWS Access Key ID
+            String awsSecretAccessKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"; // AWS Secret Access Key
 
-            // Simulating usage
             System.out.println("Connecting to AWS with Access Key: " + awsAccessKeyId);
-            System.out.println("Using Secret Key: " + awsSecretAccessKey);
 
-            // 3. SQL Injection
-            // 3. SQL Injection vulnerability
+            // ** AWS S3 client using hardcoded credentials **
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                    .withRegion("us-east-1")
+                    .build();
+
+            // Try listing buckets (simulation)
+            System.out.println("Listing S3 Buckets...");
+            s3Client.listBuckets().forEach(bucket -> System.out.println("Bucket: " + bucket.getName()));
+
+            // 2. SQL Injection vulnerability
             String userInput = "'; DROP TABLE users; --"; // Malicious input
             String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
 
@@ -41,23 +54,23 @@ public class AppMain {
                 e.printStackTrace();
             }
 
-            // 4. Insecure Random for security token
+            // 3. Insecure Random for security token
             Random random = new Random();
             int token = random.nextInt();
             System.out.println("Generated token: " + token);
 
-            // 5. Command Injection
+            // 4. Command Injection
             String cmdInput = "ls; rm -rf /"; // Simulated malicious input
             Runtime.getRuntime().exec("sh -c " + cmdInput);
 
-            // 6. Insecure Deserialization
+            // 5. Insecure Deserialization
             String maliciousData = Base64.getEncoder().encodeToString("rO0ABXNy...".getBytes());
             byte[] data = Base64.getDecoder().decode(maliciousData);
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
             Object obj = ois.readObject();
             System.out.println("Deserialized object: " + obj);
 
-            // 7. Disable SSL certificate validation
+            // 6. Disable SSL certificate validation
             TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
                     public X509Certificate[] getAcceptedIssuers() { return null; }
@@ -70,8 +83,8 @@ public class AppMain {
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
             HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
 
-            // 8. Insecure HTTP (no HTTPS)
-            URL url = new URL("http://example.com"); // Insecure URL
+            // 7. Insecure HTTP (no HTTPS)
+            URL url = new URL("http://example.com");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             System.out.println("HTTP Response: " + conn.getResponseCode());
