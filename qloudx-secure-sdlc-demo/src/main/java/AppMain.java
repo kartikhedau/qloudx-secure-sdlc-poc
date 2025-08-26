@@ -11,7 +11,7 @@ public class AppMain {
 
     public static void main(String[] args) {
         try {
-            // 1. Hardcoded credentials (Bad practice) 
+            // 1. Hardcoded credentials (Bad practicasdae) 
             String hardcodedPassword = "SuperSecret123!";
             String apiKey = "API-KEY-12345";
 
