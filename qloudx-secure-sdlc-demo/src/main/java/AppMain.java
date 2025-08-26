@@ -7,7 +7,7 @@ public class AppMain {
 
     public static void main(String[] args) {
         String userInput = "'; DROP TABLE usersasdad; --"; // Example of malicious input
-        String hardcodedPassword = "superSecret123";  // Hardcoded secret (Bad practice)
+        String hardcodedPassword = "superSecret123";  // Hardcoded secret (Bad practice)asdsa
 
         try {
             Connection conn = DriverManager.getConnection(
