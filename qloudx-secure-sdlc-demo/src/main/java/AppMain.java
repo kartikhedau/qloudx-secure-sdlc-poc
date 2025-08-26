@@ -6,23 +6,40 @@ import java.util.Base64;
 import java.util.Random;
 import javax.net.ssl.*;
 import java.security.cert.X509Certificate;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class AppMain {
 
     public static void main(String[] args) {
         try {
-            // 1. Hardcoded credentials (Bad practicasdae) 
-            String hardcodedPassword = "SuperSecret123!";
-            String apiKey = "API-KEY-12345";
+        	// ✅ Example of leaked AWS credentials (for testing purposes only)
+            String awsAccessKeyId = "AKIA1234567890ABCD"; // AWS Access Key ID pattern
+            String awsSecretAccessKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"; // AWS Secret Access Key pattern
 
-            // 2. Logging sensitive information
-            System.out.println("API Key: " + apiKey);
-            System.out.println("Password: " + hardcodedPassword);
+            // Simulating usage
+            System.out.println("Connecting to AWS with Access Key: " + awsAccessKeyId);
+            System.out.println("Using Secret Key: " + awsSecretAccessKey);
 
             // 3. SQL Injection
-            String userInput = "'; DROP TABLE users; --";
+            // 3. SQL Injection vulnerability
+            String userInput = "'; DROP TABLE users; --"; // Malicious input
             String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
-            System.out.println("Executing query: " + query);
+
+            try {
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "asd");
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query); // Vulnerable to SQL Injection
+
+                while (rs.next()) {
+                    System.out.println("User: " + rs.getString("username"));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             // 4. Insecure Random for security token
             Random random = new Random();
