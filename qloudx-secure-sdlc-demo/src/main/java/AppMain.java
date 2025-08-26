@@ -34,7 +34,7 @@ public class AppMain {
                     .build();
 
             // Try listing buckets (simulation)
-            System.out.println("Listing S3 Buckets...");
+            System.out.println("Listing S3 Buckets.ada..");
             s3Client.listBuckets().forEach(bucket -> System.out.println("Bucket: " + bucket.getName()));
 
             // 2. SQL Injection vulnerability
