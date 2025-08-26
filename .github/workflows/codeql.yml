@@ -29,6 +29,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: java
+          upload: true
 
       # Explicit Maven build (better than Autobuild for custom Maven projects)
       - name: Build with Maven
