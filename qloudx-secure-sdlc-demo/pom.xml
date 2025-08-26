@@ -3,4 +3,13 @@
   <groupId>com.qloudx</groupId>
   <artifactId>qloudx-secure-sdlc-demo</artifactId>
   <version>1</version>
+  
+  <dependencies>
+  <dependency>
+  <groupId>com.amazonaws</groupId>
+  <artifactId>aws-java-sdk-s3</artifactId>
+  <version>1.12.767</version>
+</dependency>
+
+  </dependencies>
 </project>
