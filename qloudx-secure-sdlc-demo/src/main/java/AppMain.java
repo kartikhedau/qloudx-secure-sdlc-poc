@@ -16,7 +16,7 @@ public class AppMain {
             Statement stmt = conn.createStatement();
 
             // Vulnerable SQL query (SQL Injection)
-            String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
+            String query = "SELECT *  FROM users WHERE username = '" + userInput + "'";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
